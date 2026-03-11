@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Catálogo com Busca</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
+        h1 { text-align: center; color: #333; }
+
+        /* Estilo do Campo de Busca */
+        .busca-container { margin-bottom: 20px; position: relative; }
+        #inputBusca {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        #inputBusca:focus { border-color: #007bff; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #007bff; color: white; }
+        
+        .estoque-baixo { color: #d9534f; font-weight: bold; }
+        .disponivel { color: #28a745; font-weight: bold; }
+        .esgotado { color: #6c757d; font-style: italic; }
+        
+        .btn-comprar { background-color: #28a745; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px; font-size: 14px; }
+
+        /* Ajuste para Celular */
+        @media (max-width: 600px) {
+            table, thead, tbody, th, td, tr { display: block; }
+            th { display: none; }
+            tr { margin-bottom: 15px; border: 1px solid #ccc; padding: 10px; border-radius: 8px; }
+            td { text-align: right; padding-left: 50%; position: relative; border-bottom: 1px solid #eee; }
+            td::before { content: attr(data-label); position: absolute; left: 10px; font-weight: bold; color: #555; }
+            td:last-child { border-bottom: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📦 Catálogo de Produtos</h1>
+
+    <div class="busca-container">
+        <input type="text" id="inputBusca" onkeyup="filtrarProdutos()" placeholder="Pesquise por nome do produto...">
+    </div>
+    
+    <table id="tabelaProdutos">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Preço</th>
+                <th>Estoque</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td data-label="Produto">Smartphone X1</td>
+                <td data-label="Preço">R$ 2.499,00</td>
+                <td data-label="Estoque" class="disponivel">15 un.</td>
+                <td data-label="Ação"><a href="#" class="btn-comprar">Comprar</a></td>
+            </tr>
+            <tr>
+                <td data-label="Produto">Fone Bluetooth</td>
+                <td data-label="Preço">R$ 189,90</td>
+                <td data-label="Estoque" class="estoque-baixo">2 un.</td>
+                <td data-label="Ação"><a href="#" class="btn-comprar">Comprar</a></td>
+            </tr>
+            <tr>
+                <td data-label="Produto">Mouse Wireless</td>
+                <td data-label="Preço">R$ 75,00</td>
+                <td data-label="Estoque" class="disponivel">10 un.</td>
+                <td data-label="Ação"><a href="#" class="btn-comprar">Comprar</a></td>
+            </tr>
+            <tr>
+                <td data-label="Produto">Teclado Mecânico</td>
+                <td data-label="Preço">R$ 350,00</td>
+                <td data-label="Estoque" class="esgotado">Esgotado</td>
+                <td data-label="Ação">-</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+function filtrarProdutos() {
+    // Declara variáveis
+    var input, filtro, tabela, tr, td, i, txtValue;
+    input = document.getElementById("inputBusca");
+    filtro = input.value.toUpperCase();
+    tabela = document.getElementById("tabelaProdutos");
+    tr = tabela.getElementsByTagName("tr");
+
+    // Percorre todas as linhas da tabela e esconde as que não coincidem com a busca
+    for (i = 1; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0]; // Coluna 0 é o Nome do Produto
+        if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filtro) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+</script>
+
+</body>
+</html>
